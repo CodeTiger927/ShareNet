@@ -67,6 +67,9 @@ function changeJSONValue(user, key, value){
 	writeJSON("./data/userData",username + ".json");
 }
 
+// 0 - Requester
+// 1 - Helper
+
 function register(username, password, type){
 	if exists(username){return;}
 	createJSON(username);
@@ -74,6 +77,8 @@ function register(username, password, type){
 	changeJSONValue(username, 'type', type);
 	changeJSONValue(username, 'log', {});
 }
+
+
 function register(username, password, type, location){
 	if exists(username){return;}
 	CreateFile(username);
