@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name = "viewport" content = "width=device -width, initial-scale =1.0">
-	
+	<meta http-equiv="X UA Compatible" content = "ie-edge">
 	<title>Document</title>
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel="stylesheet" href="css/main.css">
 	<style>
@@ -14,23 +14,69 @@
 	</style>
 </head>
 <body>
-	<p> "hi" </p>
+	<h1> My Google Map </h1>
 	<div id="map"></div>
 	<script>
-      function initMap() {
+      function initMap(){
         var options = {
         	zoom:8, 
         	center:{lat:42,lng:-71}
-        };
-        var map = new google.maps.Map(document.getElementById("map"), options);
+        }
+
+        var map = new google.maps.Map(document.getElementById('map'), options);
+        var geocoder = new google.maps.Geocoder();
+
+    	await findCoords(geocoder, map, "123 Main St, Lexington, MA, 02421")
+       
+        
+/*
+        var marker = new google.maps.Marker({
+        	position:{lat:42,lng:-70},
+        	map:map
+        	});
+        var infoWindow=new google.maps.InfoWindow({content:'<h1> Cape Cod</h1>'});
+        marker.addListener('click', function(){infoWindow.open(map, marker);});
+*/		
+		function addMarker(coords, name){
+			var marker = new google.maps.Marker({
+        	position:coords,
+        	map:map
+        	});
+			var infoWindow=new google.maps.InfoWindow({content:'<h1>'+ name +'</h1>'});
+        	marker.addListener('click', function(){infoWindow.open(map, marker);});
+
+		}
+		
+		addMarker({lat:42, lng:-70},"Alex")
+		addMarker({lat:41, lng: -71},"Sarah")
+
+		function findCoords(geocoder, resultsMap, address) {
+        return geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {//return results[0].geometry.location;
+          /*
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });*/
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+          return status;
+        });
 
       }
+  }
+
+
+      
     </script>
 
 
 
-	<script src="https://maps.googleapis.com/maps/api js?key=AIzaSyCf9qzEBqNESUvLAAadqj_EjIoWS1LWu78&callback=initMap"
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf9qzEBqNESUvLAAadqj_EjIoWS1LWu78&callback=initMap"
     async defer></script>
+
 
 </body>
 </html>
