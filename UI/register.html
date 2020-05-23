@@ -18,7 +18,8 @@
 			var type = $("#typeofperson").val();
 
 			socket.emit("register",username,password,address,type);
-
+			alert("Successfully Registered");
+			window.location.replace("./HelperView/allRequestsAndMyRequests.html");
 		}
 	</script>
 	<div class= "container">

@@ -3,6 +3,8 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
+var md5 = require("blueimp-md5")
+
 const data = require("./data/log.json");
 var fs = require('fs');
 
@@ -32,6 +34,10 @@ app.get('/register.html',(req,res) => {
 	res.sendFile(__dirname + '/UI/register.html');
 });
 
+app.get('/allReq',(req,res) => {
+	res.sendFile(__dirname + '/UI/HelperView/allRequestsAndMyRequests.html');
+});
+
 http.listen(3000,() => {
 	console.log('listening on *:3000');
 });
@@ -43,6 +49,7 @@ http.listen(3000,() => {
 
 // File system
 function createFile(location,name) {
+	console(location + "/" + name);
 	fs.writeFile(location + '/' + name,'',function(err) {
 		if(err) {
 			throw err;
@@ -56,6 +63,7 @@ function CreateFile(name){
 }
 
 function createJSON(name) {
+	console.log("Okay");
 	createFile(name);
 	writeFile("./data/userData",name + ".json","{}");
 }
@@ -87,46 +95,49 @@ function writeJSON(location,name,jsonOBJ) {
 
 
 function getJSONValue(user){
-	var userData = require('./data/' + user + '.json');
+	var userData = require('./data/userData/' + user + '.json');
 	return userData;
 }
 
 function getJSONValue(user, key){
-	var userData = require('./data/' + user + '.json');
+	var userData = require('./data/userData/' + user + '.json');
 	return userData[key];
 }
 
 function changeJSONValue(user, key, value){
 	var user = getJSONValue(user);
 	user[key] = value;
-	writeJSON("./data/userData",username + ".json");
+	writeJSON("./data/userData",username + ".json",user);
 }
 
 // 0 - Requester
 // 1 - Helper 
 
 function register(username,password,type,location){
-	// if exists(username){return;}
-	// CreateFile(username);
-	request({url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&address=" + location},
-	(error,res,body) => {
-		if(error) {
-			postGetLL(username,password,type,body.geometry.location.lat,type,body.geometry.location.lng);
-			return;
-		}else{
-			console.log(body);
-		}
-	})
+	if(!fs.existsSync("./data/userData/" + username + ".json")) {
+		fs.writeFile("./data/userData/" + username + ".json","{}",function() {
+			request({url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&language=en&address=" + location},
+			(error,res,body) => {
+				if(error) {
+					return;
+				}else{
+					var jsonObj = JSON.parse(body);
+					postGetLL(username,password,type,jsonObj.results[0].geometry.location.lat,type,jsonObj.results[0].geometry.location.lng);
+				}
+			});
+		});
+	}
 	
 }
 
 function postGetLL(username,password,type,latitude,longtitude) {
-	changeJSONValue(username, 'password', md5(password));
-	changeJSONValue(username, 'type', type);
-	changeJSONValue(username, 'log', {});
-	changeJSONValue(username, 'lat', latitude);
-	changeJSONValue(username, 'long', longtitude);
-
+	var user = require("./data/userData/" + username + ".json");
+	user["password"] = md5(password);
+	user["type"] = type;
+	user["long"] = longtitude;
+	user["lat"] = latitude;
+	user["log"] = {};
+	writeFile("./data/userData",username + ".json",JSON.stringify(user));
 }
 
 //description, sender, accepter
