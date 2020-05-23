@@ -4,8 +4,23 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="css/main.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
+	<script>
+		var socket = io();
+
+		function register() {
+			var username = $("#username").val();
+			var password = $("#password").val();
+			var address = $("#Address").val();
+			var type = $("#typeofperson").val();
+
+			socket.emit("register",username,password,address,type);
+
+		}
+	</script>
 	<div class= "container">
 		<div id='columns'>
 			<div id='left'>
@@ -18,16 +33,16 @@
 			<div id='right'>
 				<div id='protocontainer'>
 					<h2>Sign-Up</h2>
-					<form id="form1" action="./myrequests.html">
+					<div id="form1">
 						<select placeholder="What will you be doing?" id="typeofperson" name="typeofperson">
-						  <option value="requester">Requesting</option>
-						  <option value="helper">Helping</option>
+						  <option value=0>Requesting</option>
+						  <option value=1>Helping</option>
 						</select>
 						<textarea placeholder="your address" name="Address" id="Address" cols="30" rows="1"></textarea>
-						<input type="email" id="email"class="email" placeholder="your email">
+						<input type="text" id="username"class="email" placeholder="your username">
 						<input type="password" id="password" placeholder="password">
-						<input class="button" type="submit" name="signup" value='Continue'>
-					</form>
+						<input onclick="register()" class="button" type="submit" name="signup" value='Continue'>
+					</div>
 					<br>
 					<h2>
 						Already have an account? <a href="./">Login</a>

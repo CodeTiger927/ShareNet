@@ -88,6 +88,7 @@ function register(username, password, type, location){
 	changeJSONValue(username, 'location', location)
 }
 
+
 //description, sender, accepter
 function addRequest(requester, description){
 	data[ID] = {"requester":requester, "description":description,
@@ -111,12 +112,6 @@ function endRequest(accepter, ID){
 	currLog.delete(ID);
 	changeJSONValue(accepter, 'log', currLog);
 }
-
-function findDistance(p1, p2){
-
-
-}
-
 
 
 //AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w

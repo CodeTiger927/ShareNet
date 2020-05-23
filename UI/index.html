@@ -4,11 +4,21 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 	<script>
-		var 
+		var socket = io();
+
+		function register() {
+			var username = $("#username").val();
+			var password = $("#password").val();
+			socket.emit("login",username,password,function() {
+
+			});
+
+		}
 	</script>
 	<div class= "container">
 		<div id='columns'>
@@ -22,11 +32,11 @@
 			<div id='right'>
 				<div id='protocontainer'>
 					<h2>Login</h2>
-					<form id="form2" action="./myrequests.html">
-						<input type="email" id="email"class="email" placeholder="your email">
+					<div id="form2">
+						<input type="text" id="username" class="email" placeholder="your username">
 						<input type="password" id="password" placeholder="password">
-						<input class="button" type="submit" name="Login" value='Continue'>
-					</form>
+						<input onclick="register();" class="button" type="submit" name="Login" value='Continue'>
+					</div>
 					<br>
 					<h2>
 						Do not have an account? <a href="./register.html">Sign-Up</a>
