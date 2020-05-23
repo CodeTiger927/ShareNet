@@ -10,15 +10,20 @@
 		<div id='columns'>
 			<div id='left'>
 				<div id= 'header'>
-					<img src="./Photos/shoppingsharelogo2.png" alt="Shopping Share Logo">
+					<img src="./Photos/ShareNet.png" alt="Share Net Logo">
 				</div>
-				<h1>Shopping Share</h1>
+				<h1>Share Net</h1>
 				<p>A grocery shopping site where vulnerable populations can request grocery shopping during the COVID-19 crisis in order to minimize their exposure.<br> <br>Healthy people can also use our 'helper' feature in order to find people near them who need help with grocery shopping.</p>
 			</div>
 			<div id='right'>
 				<div id='protocontainer'>
 					<h2>Sign-Up<h2>
-					<form action="/registration.html">
+					<form id="form1" action="./registration.html">
+						<select placeholder="What will you be doing?" id="typeofperson" name="typeofperson">
+						  <option value="requester">Requesting</option>
+						  <option value="helper">Helping</option>
+						</select>
+						<textarea placeholder="your address" name="Address" id="Address" cols="30" rows="1"></textarea>
 						<input type="email" id="email"class="email" placeholder="your email">
 						<input type="password" id="password" placeholder="password">
 						<input class="button" type="submit" name="signup" value='Continue'>
@@ -28,7 +33,7 @@
 				</div>
 				<div id='protocontainer'>
 					<h2>Login<h2>
-					<form action="/myrequests.html">
+					<form id="form2" action="./myrequests.html">
 						<input type="email" id="email"class="email" placeholder="your email">
 						<input type="password" id="password" placeholder="password">
 						<input class="button" type="submit" name="Login" value='Continue'>

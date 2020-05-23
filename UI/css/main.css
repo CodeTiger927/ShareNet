@@ -49,6 +49,18 @@ form{
 	cursor: pointer;
 	padding: .5em;
 }
+select{
+	padding: .35em;
+	width:20%;
+	position: relative;
+	top:2px;
+}
+textarea{
+	padding: .35em;
+	width:61%;
+	position: relative;
+	top:12px;
+}
 .email{
 	padding: .35em;
 	width:70%;
@@ -68,7 +80,7 @@ img{
 	display:inline;
 	vertical-align: middle;
 	position: relative;
-	top:275px;
+	top:250px;
 }
 a{
 	color: rgba(41,165,170,1)
