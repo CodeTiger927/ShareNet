@@ -11,9 +11,15 @@ io.on('connection',(socket) => {
 });
 
 app.use("/data", express.static(__dirname + '/data'));
+app.use("/Photos", express.static(__dirname + '/UI/Photos'));
+app.use("/css", express.static(__dirname + '/UI/css'));
 
 app.get('/',(req,res) => {
 	res.sendFile(__dirname + '/UI/index.html');
+});
+
+app.get('/register.html',(req,res) => {
+	res.sendFile(__dirname + '/UI/register.html');
 });
 
 http.listen(3000,() => {
