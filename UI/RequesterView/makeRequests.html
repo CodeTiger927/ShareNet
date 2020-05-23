@@ -4,8 +4,21 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="../css/main.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
+	<script>
+		var socket = io();
+
+		function register() {
+			var reqList = $("#requestList").val();
+			var notes = $("#notes").val();
+			
+			socket.emit("register",requestList,notes);
+
+		}
+	</script>
 	<div class= "container">
 		<div id='columns'>
 			<div id='left'>
@@ -20,12 +33,16 @@
 					
 					<h2>Make Request</h2>
 				
-					<form id="form1" action="./myrequests.html">
+					<div id="form1">
 						
-						<textarea placeholder="Request Description" name="Address" id="Address" cols="50" rows="3"></textarea>
-						
-						<input class="button" type="submit" name="signup" value='Continue'>
-					</form>
+						<textarea placeholder="Request List" name="reqList" id="reqList" cols = "30" resize = "none" rows="6"></textarea>
+
+						<textarea placeholder="Extra Notes" name="notes" id="notes" cols = "10" resize = "none" rows="3"></textarea>
+						<br>
+
+						<input class="button" type="submit" name="signup" 
+						value='Submit Request' style="margin-top: 20px">
+					</div>
 					<br>
 					<h2>
 						<a href="./">Back to Login</a>
