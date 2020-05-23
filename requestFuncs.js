@@ -58,8 +58,14 @@ function createFile(location,name) {
 		console.log("File is created successfully");
 	});
 }
+
 function CreateFile(name){
 	createFile("./data/userData", name + ".json");
+}
+
+function creatJSON(name) {
+	createFile(name);
+	writeFile("./data/userData",name + ".json","{}");
 }
 
 
