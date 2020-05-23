@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-
+h2{
+	color:#545454;
+}
 body{
 	margin:0;
 	font-family: 'Lato', sans-serif;
@@ -24,12 +26,13 @@ p{
 	background: rgb(41,165,170);
     background: linear-gradient(25deg, rgba(41,165,170,1) 0%, rgba(69,226,232,1) 100%);
 	text-align: left;
-	padding: 1em;
+	padding: 1.5em;
 	height:100vh;
+
 }
 #right{
-	background-color: white
-	margin: 2em 0 1em;
+	height:100%;
+	display:inline;
 }
 #columns{
 	display:grid;
@@ -39,13 +42,34 @@ form{
 	padding: .5em;
 	outline: none;
 }
-#button{
-	background: #a6a6a6;
-	outline: none;
-	outline-offset: none;
+.button{
+	background: rgb(41,165,170);
+    background: linear-gradient(90deg, rgba(41,165,170,1) 0%, rgba(69,226,232,1) 100%);
+	border: none;
 	cursor: pointer;
+	padding: .5em;
+}
+.email{
+	padding: .35em;
+	width:70%;
+}
+#password{
+	padding: .35em;
+	width:30%;
+}
+#email{
+	width:40%;
 }
 img{
 	width:35%;
 	margin:0;
+}
+#protocontainer{
+	display:inline;
+	vertical-align: middle;
+	position: relative;
+	top:275px;
+}
+a{
+	color: rgba(41,165,170,1)
 }
