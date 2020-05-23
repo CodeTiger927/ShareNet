@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name = "viewport" content = "width=device -width, initial-scale =1.0">
-	<meta http-equiv="X UA Compatible" content = "ie-edge">
+	
 	<title>Document</title>
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel="stylesheet" href="css/main.css">
 	
@@ -15,11 +14,8 @@
 			width:100%; }
 
 	</style>
-<<<<<<< HEAD
-</head>
 <body>
 	<h1> My Google Map </h1>
-	<p> "hi" </p>
 	<div id="map"></div>
 	<script>
       function initMap(){
@@ -31,7 +27,7 @@
         var map = new google.maps.Map(document.getElementById('map'), options);
         var geocoder = new google.maps.Geocoder();
 
-    	await findCoords(geocoder, map, "123 Main St, Lexington, MA, 02421")
+    	console.log(findCoords(geocoder, map, "123 Main St, Lexington, MA, 02421"))
        
         
 /*
@@ -54,10 +50,12 @@
 		
 		addMarker({lat:42, lng:-70},"Alex")
 		addMarker({lat:41, lng: -71},"Sarah")
+		
 
 		function findCoords(geocoder, resultsMap, address) {
-        return geocoder.geocode({'address': address}, function(results, status) {
-          if (status === 'OK') {//return results[0].geometry.location;
+        	geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') { return(results[0].geometry.location.lat());
+
           /*
             resultsMap.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
@@ -66,10 +64,11 @@
             });*/
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
+            return;
           }
-          return status;
-        });
+          //return status;
 
+        });
       }
   }
 
