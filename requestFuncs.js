@@ -85,9 +85,11 @@ function register(username, password, type, location){
 
 //description, sender, accepter
 function addRequest(requester, description){
-	requestLogData.push([requester, description]);
-
+	data[ID] = {"requester":requester, "description":description,
+				"lat":getJSONValue(requester, "lat"), 
+				"long":getJSONValue(requester, "long")};
 }
+
 
 function acceptRequest(accepter, ID){
 	var request = requestLogData[ID];
