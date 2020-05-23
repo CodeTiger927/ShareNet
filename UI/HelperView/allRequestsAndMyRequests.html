@@ -1,54 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	
-	<title>Document</title>
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel="stylesheet" href="css/main.css">
+  <meta charset="UTF-8">
+  
+  <title>Document</title>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel="stylesheet" href="css/main.css">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	
+  
 </head>
 <body>
-	<style>
-		#map{
-			height:400px;
-			width:100%; }
+  <style>
+    #map{
+      height:400px;
+      width:100%; }
 
-	</style>
-<body>
-	<h1> My Google Map </h1>
-	<div id="map"></div>
-	<script>
+  </style>
+  <h1> My Google Map </h1>
+  <div id="map"></div>
+  <script>
+
+
+    var username = "Alex"; 
+    var userData;
+    function postUserData(data){
+      userData = data;
+      $.get("../../data/log.json",function(data) {
+            parseLog(data["log"]);
+          });
+
+    } 
+  $.get("../../data/UserData/"+username+".json",function(data) {
+        postUserData(data);
+      }); 
+    
+  function sortProperties(obj){
+    // convert object into array
+  var sortable=[];
+  for(var key in obj)
+    if(obj.hasOwnProperty(key))
+      sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+  
+  // sort items by value
+  sortable.sort(function(a, b)
+  {
+    return a[1]-b[1]; // compare numbers
+  });
+  return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
+}
+
+      function parseLog(log){
+        for (var ID in log){
+          var dist = {}
+          dist[ID] = Math.sqrt(
+            (userData["lat"]-log[ID]["lat"])*
+            (userData["lat"]-log[ID]["lat"]) + 
+            (userData["long"]-log[ID]["long"])*
+            (userData["long"]-log[ID]["long"]))
+        }
+        var sortedDists = sortProperties(dist);
+        console.log(sortedDists);
+        
+      }
+      function initMap(){
+        var options = {
+          zoom:8, 
+          center:{lat:42,lng:-71}
+        }
+
         var map = new google.maps.Map(document.getElementById('map'), options);
         var geocoder = new google.maps.Geocoder();
 
-    	console.log(findCoords(geocoder, map, "123 Main St, Lexington, MA, 02421"))
+      console.log(findCoords(geocoder, map, "123 Main St, Lexington, MA, 02421"))
        
         
 /*
         var marker = new google.maps.Marker({
-        	position:{lat:42,lng:-70},
-        	map:map
-        	});
+          position:{lat:42,lng:-70},
+          map:map
+          });
         var infoWindow=new google.maps.InfoWindow({content:'<h1> Cape Cod</h1>'});
         marker.addListener('click', function(){infoWindow.open(map, marker);});
-*/		
-		function addMarker(coords, name){
-			var marker = new google.maps.Marker({
-        	position:coords,
-        	map:map
-        	});
-			var infoWindow=new google.maps.InfoWindow({content:'<h1>'+ name +'</h1>'});
-        	marker.addListener('click', function(){infoWindow.open(map, marker);});
+*/    
+    function addMarker(coords, name){
+      var marker = new google.maps.Marker({
+          position:coords,
+          map:map
+          });
+      var infoWindow=new google.maps.InfoWindow({content:'<h1>'+ name +'</h1>'});
+          marker.addListener('click', function(){infoWindow.open(map, marker);});
 
-		}
-		
-		addMarker({lat:42, lng:-70},"Alex")
-		addMarker({lat:41, lng: -71},"Sarah")
-		
+    }
+    
+    addMarker({lat:42, lng:-70},"Alex")
+    addMarker({lat:41, lng: -71},"Sarah")
+    
 
-		function findCoords(geocoder, resultsMap, address) {
-        	geocoder.geocode({'address': address}, function(results, status) {
+    function findCoords(geocoder, resultsMap, address) {
+          geocoder.geocode({'address': address}, function(results, status) {
           if (status === 'OK') { return(results[0].geometry.location.lat());
 
           /*
@@ -73,7 +121,7 @@
 
 
 
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&callback=initMap"
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&callback=initMap"
     async defer></script>
 
 
