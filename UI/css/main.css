@@ -1,11 +1,10 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 body{
 	margin:0;
 	font-family: 'Lato', sans-serif;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 20px;
     height: 100vh;
 }
 .container{
@@ -13,16 +12,17 @@ body{
 	text-align:center;
 }
 h1{
-	font-size: 30px;
+	font-size: 35px;
 	margin: 1em 0;
 	text-align: middle;
 }
 p{
-	line-height: 1.7rem;
+	line-height: 2.5rem;
 }
 #left{
 	color: white;
-	background-color: #EEEEEE;
+	background: rgb(41,165,170);
+    background: linear-gradient(25deg, rgba(41,165,170,1) 0%, rgba(69,226,232,1) 100%);
 	text-align: left;
 	padding: 1em;
 	height:100vh;
@@ -40,11 +40,12 @@ form{
 	outline: none;
 }
 #button{
-	background: #EEEEEE;
+	background: #a6a6a6;
 	outline: none;
 	outline-offset: none;
 	cursor: pointer;
 }
 img{
-	width:25%;
+	width:35%;
+	margin:0;
 }
