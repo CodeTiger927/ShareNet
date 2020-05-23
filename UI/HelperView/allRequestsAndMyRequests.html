@@ -25,7 +25,8 @@
     function postUserData(data){
       userData = data;
       $.get("../../data/log.json",function(data) {
-            parseLog(data["log"]);
+
+            parseLog(data);
           });
 
     } 
@@ -49,6 +50,7 @@
 }
 
       function parseLog(log){
+        console.log(log);
         for (var ID in log){
           var dist = {}
           dist[ID] = Math.sqrt(
@@ -56,7 +58,9 @@
             (userData["lat"]-log[ID]["lat"]) + 
             (userData["long"]-log[ID]["long"])*
             (userData["long"]-log[ID]["long"]))
+          console.log(dist[ID]);
         }
+        console.log(dist);
         var sortedDists = sortProperties(dist);
         console.log(sortedDists);
         
