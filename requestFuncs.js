@@ -11,13 +11,15 @@ function changeJSONValue(user, key, value){
 	writeJSON("./data/userData",username + ".json");
 }
 
-function register(username, password){
+function register(username, password, type){
 	
 	if exists(username){
 		return;
 	}
-
-	changeJSONValue(username, 'password', md5(password))
+	CreateFile(username);
+	changeJSONValue(username, 'password', md5(password));
+	changeJSONValue(username, 'type', type);
+	changeJSONValue(username, 'log', {});
 }
 
 //description, sender, accepter
@@ -43,7 +45,48 @@ function endRequest(accepter, ID){
 
 }
 
-function findDistance()
+function findDistance(){
 
+
+}
+var fs = require('fs');
+
+
+function createFile(location,name) {
+	fs.writeFile(location + '/' + name,'',function(err) {
+		if(err) {
+			throw err;
+		}
+		console.log("File is created successfully");
+	});
+}
+function CreateFile(name){
+	createFile("./data/userData", name + ".json");
+}
+
+
+function deleteFile(location,name) {
+	fs.unlink(location + '/' + name,'',function(err) {
+		if(err) {
+			throw err;
+		}
+		console.log("File is deleted successfully");
+	});
+}
+
+function writeFile(location,name,value) {
+	fs.writeFile(location + '/' + name,value,function writeJSON(err) {
+		if(err) {
+			return console.log(err);
+		}
+	});
+}
+
+function writeJSON(location,name,jsonOBJ) {
+	writeFile(location,name,JSON.stringify(jsonOBJ));
+}
+
+createFile("./data/userData","Alex.json");
+writeJSON("./data/userData","Alex.json",{"Alex":"Hehhee"});
 
 
