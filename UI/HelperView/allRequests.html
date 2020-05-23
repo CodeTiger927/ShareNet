@@ -19,16 +19,6 @@
 	<h1> My Google Map </h1>
 	<div id="map"></div>
 	<script>
-      $.post("./data/UserData/log.json",function(data) {
-        parseLog(data);
-      });
-
-      function initMap(){
-        var options = {
-        	zoom:8, 
-        	center:{lat:42,lng:-71}
-        }
-
         var map = new google.maps.Map(document.getElementById('map'), options);
         var geocoder = new google.maps.Geocoder();
 
