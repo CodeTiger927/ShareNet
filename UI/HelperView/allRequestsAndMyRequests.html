@@ -19,7 +19,7 @@
   <div id="map"></div>
   <script>
 
-
+    var R = 6373;
     var username = "Alex"; 
     var userData;
     function postUserData(data){
@@ -51,18 +51,28 @@
 
       function parseLog(log){
         console.log(log);
+        var dist = {}
         for (var ID in log){
-          var dist = {}
-          dist[ID] = Math.sqrt(
-            (userData["lat"]-log[ID]["lat"])*
-            (userData["lat"]-log[ID]["lat"]) + 
-            (userData["long"]-log[ID]["long"])*
-            (userData["long"]-log[ID]["long"]))
+          console.log(ID);
+
+          var lon1 = userData["long"]*Math.PI/180;
+          var lat1 = userData["lat"]*Math.PI/180;
+          var lon2 = log[ID]["long"]*Math.PI/180;
+          var lat2 = log[ID]["lat"]*Math.PI/180;
+          var dlon = lon2 - lon1;
+          var dlat = lat2 - lat1;
+          var a = (Math.sin(dlat/2))*(Math.sin(dlat/2)) + Math.cos(lat1) * Math.cos(lat2) * (Math.sin(dlon/2))*(Math.sin(dlon/2));
+          var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+          var d = R * c;
+          dist[ID] = d;
           console.log(dist[ID]);
         }
         console.log(dist);
         var sortedDists = sortProperties(dist);
         console.log(sortedDists);
+
+
+        //sortedDists is an array that has all of the stuff
         
       }
       function initMap(){
