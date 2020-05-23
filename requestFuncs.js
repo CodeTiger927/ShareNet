@@ -1,4 +1,5 @@
 const data = require("./data/log.json");
+
 function getJSONValue(user){
 	var userData = require('./data/' + user + '.json');
 	return userData;
@@ -47,6 +48,7 @@ function findDistance(){
 
 
 }
+
 var fs = require('fs');
 
 
@@ -63,7 +65,7 @@ function CreateFile(name){
 	createFile("./data/userData", name + ".json");
 }
 
-function creatJSON(name) {
+function createJSON(name) {
 	createFile(name);
 	writeFile("./data/userData",name + ".json","{}");
 }
