@@ -12,7 +12,6 @@ function changeJSONValue(user, key, value){
 }
 
 function register(username, password, type){
-	
 	if exists(username){
 		return;
 	}
@@ -40,9 +39,8 @@ function acceptRequest(accepter, ID){
 
 function endRequest(accepter, ID){
 	var currLog = getJSONValue(accepter)['log'];
-	currLog.delete(ID);
-	changeJSONValue(accepter, 'log', currLog);
-
+	delete curLog[ID];
+	changeJSONValue(accepter,'log', currLog);
 }
 
 function findDistance(){
@@ -60,8 +58,14 @@ function createFile(location,name) {
 		console.log("File is created successfully");
 	});
 }
+
 function CreateFile(name){
 	createFile("./data/userData", name + ".json");
+}
+
+function creatJSON(name) {
+	createFile(name);
+	writeFile("./data/userData",name + ".json","{}");
 }
 
 
