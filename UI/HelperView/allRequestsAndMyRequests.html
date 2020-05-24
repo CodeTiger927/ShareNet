@@ -30,7 +30,7 @@
         <div id="map"></div>
         <script>
 
-
+          var R = 6373;
           var username = "Alex"; 
           var userData;
           function postUserData(data){
@@ -64,11 +64,12 @@
               console.log(log);
               for (var ID in log){
                 var dist = {}
-                dist[ID] = Math.sqrt(
-                  (userData["lat"]-log[ID]["lat"])*
-                  (userData["lat"]-log[ID]["lat"]) + 
-                  (userData["long"]-log[ID]["long"])*
-                  (userData["long"]-log[ID]["long"]))
+                var dlon = Math.PI*userData["long"]-log[ID]["long"]/180;
+                var dlat = Math.PI*userData["lat"]-log[ID]["lat"]/180;
+                var a = (Math.sin(dlat/2)*Math.sin(dlat/2)) + Math.cos(lat1) * Math.cos(lat2) * (Math.sin(dlon/2)*Math.sin(dlon/2))
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a) )
+                var d = R * c 
+                dist[ID] = d;
                 console.log(dist[ID]);
               }
               console.log(dist);
