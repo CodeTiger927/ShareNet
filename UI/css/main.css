@@ -43,11 +43,11 @@ form{
 	outline: none;
 }
 .button{
-	background: rgb(41,165,170);
-    background: linear-gradient(90deg, rgba(41,165,170,1) 0%, rgba(69,226,232,1) 100%);
+	background: rgba(69,226,232,1);
 	border: none;
 	cursor: pointer;
 	padding: .5em;
+	border-radius: 5px;
 }
 select{
 	padding: .35em;
@@ -90,6 +90,14 @@ img{
 a{
 	color: rgba(41,165,170,1)
 }
+
+}
+input{
+	float:none;
+	padding:1em;
+	margin:.5em;
+}
+
 
 .request {
 	border: 1px solid black;
