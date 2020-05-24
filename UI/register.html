@@ -12,14 +12,17 @@
 		var socket = io();
 
 		function register() {
+			console.log("yes");
 			var username = $("#username").val();
 			var password = $("#password").val();
 			var address = $("#Address").val();
 			var type = $("#typeofperson").val();
+			var contact = $("#contact").val();
 
-			socket.emit("register",username,password,address,type);
+
+			socket.emit("register",username,password,address,type,contact);
 			alert("Successfully Registered");
-			window.location.replace("./HelperView/allRequestsAndMyRequests.html");
+			window.location.replace("./redirect.html?username=" + username + "&password=" + password);
 		}
 	</script>
 	<div class= "container">
@@ -43,7 +46,7 @@
 						<input style="width:70%;"type="text" id="contact"class="contact" placeholder="your contact info">
 						<input style="width:30%;"type='text' id='username'class='email' placeholder='your username'>
 						<input style="width:20%;"type='password' id="password" placeholder="password">
-						<input style="width:17%";onclick='register()' class='button' type='submit' name='signup'value='Continue'>
+						<input style="width:17%;" onclick='register()' class='button' type='submit' name='signup'value='Continue'>
 					</div>
 					<br>
 					<h2>

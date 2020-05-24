@@ -17,13 +17,21 @@ io.on('connection',(socket) => {
 		console.log('user disconnected');
 	});
 
-	socket.on('register',(usr,pwd,addr,type) => {
-		register(usr,pwd,type,addr);
+	socket.on('register',(usr,pwd,addr,type,contact) => {
+		register(usr,pwd,type,addr,contact);
 	});
 
 	socket.on('addRequest',(requester,description) => {
 		addRequest(requester,description);
 	});
+
+	socket.on('acceptRequest',(accepter,id) => {
+		acceptRequest(accepter,id);
+	});
+
+	socket.on('endRequest',(accepter,requester,id) => {
+		endRequest(accepter,requester,id);
+	})
 });
 
 app.use("/data", express.static(__dirname + '/data'));
@@ -48,6 +56,22 @@ app.get('/makeReq',(req,res) => {
 
 app.get('/viewReqs',(req,res) => {
 	res.sendFile(__dirname + '/UI/HelperView/acceptedRequests.html');
+});
+
+app.get('/redirect.html',(req,res) => {
+	var username = req.query.username;
+	var password = md5(req.query.password);
+	var truePWD = getJSONValue(username,"password");
+	var type = getJSONValue(username,"type");
+	if(truePWD == password) {
+		if(type == 0) {
+			res.redirect('./makeReq?username=' + username);
+		}else{
+			res.redirect('./allReq?username=' + username);
+		}
+	}else{
+		res.redirect('./');
+	}
 });
 
 http.listen(3000,() => {
@@ -120,7 +144,7 @@ function changeJSONValue(user, key, value){
 // 0 - Requester
 // 1 - Helper 
 
-function register(username,password,type,location){
+function register(username,password,type,location,contact){
 	if(!fs.existsSync("./data/userData/" + username + ".json")) {
 		fs.writeFile("./data/userData/" + username + ".json","{}",function() {
 			request({url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&language=en&address=" + location},
@@ -129,7 +153,7 @@ function register(username,password,type,location){
 					return;
 				}else{
 					var jsonObj = JSON.parse(body);
-					postGetLL(username,password,type,jsonObj.results[0].geometry.location);
+					postGetLL(username,password,type,location,jsonObj.results[0].geometry.location,contact);
 				}
 			});
 		});
@@ -137,13 +161,15 @@ function register(username,password,type,location){
 	
 }
 
-function postGetLL(username,password,type,location) {
+function postGetLL(username,password,type,actualLoc,location,contact) {
 	var user = require("./data/userData/" + username + ".json");
 	user["password"] = md5(password);
 	user["type"] = type;
 	user["long"] = location.lng;
+	user["location"] = actualLoc;
 	user["lat"] = location.lat;
 	user["log"] = {};
+	user["contact"] = contact;
 	writeFile("./data/userData",username + ".json",JSON.stringify(user));
 }
 
@@ -154,7 +180,8 @@ function addRequest(requester,description){
 				"lat":getJSONValue(requester,"lat"), 
 				"long":getJSONValue(requester,"long"),
 				"contact":getJSONValue(requester,"contact"),
-				"accepted":false};
+				"accepted":false,
+				"location":getJSONValue(requester,"location")};
 	writeFile("./data","log.json",JSON.stringify(data));
 }
 
@@ -162,6 +189,10 @@ function addRequest(requester,description){
 function acceptRequest(accepter,ID){
 	var request = data[ID];
 	var requester = request['requester'];
+	request["accepted"] = true;
+	request["accepter"] = accepter;
+	request["accepter_contact"] = getJSONValue(accepter,'contact');
+	request["requester_contact"] = getJSONValue(requester,'contact');
 
 	var logUpdateReq = getJSONValue(requester,'log');
 	logUpdateReq[ID] = request;
@@ -178,7 +209,7 @@ function acceptRequest(accepter,ID){
 
 }
 
-function endRequest(accepter, ID){
+function endRequest(accepter,requester,ID){
 	var currLogAcc = getJSONValue(accepter,'log');
 	delete currLogAcc[ID];
 	var currLogReq = getJSONValue(requester,'log');

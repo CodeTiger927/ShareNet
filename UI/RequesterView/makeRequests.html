@@ -44,9 +44,15 @@
 	<script>
 		var socket = io();
 
-		var username = "Alex";
+		var username = getUrlParameter("username");
+
 		$.get("../../data/log.json",function(data){
-			lookInLog(data);
+			$.get("../../data/userData/" + username + ".json",function(data2) {
+				for(var ID in data2["log"]) {
+					data[ID] = data2["log"][ID];
+				}
+				lookInLog(data);
+			});
 		});
 
 		function makeRequest() {
@@ -59,9 +65,9 @@
 			var listReq = $("#listReq");
 			var counter = 0;
 			for(var ID in log){
+				if(ID == "counter") continue;
 				counter++;
 				if(log[ID]['requester'] == username){
-
 
 					if(log[ID]['accepted']){
 
@@ -69,7 +75,8 @@
 					listReq.append('<div class="request" id="request' + counter + '"></div>');
 					var nextDiv = $("#request" + counter);
 
-					nextDiv.append("ID:" + ID + " (Accepted)<br>");
+					nextDiv.append("ID:" + ID + " (Accepted by " + log[ID]['accepter'] + ")<br>");
+					nextDiv.append("Helper's contact: " + log[ID]['accepter_contact'] + "<br>");
 					nextDiv.append("");
 					nextDiv.append(log[ID]["description"]);
 
@@ -89,6 +96,21 @@
 				}
 			}
 		}
+
+			function getUrlParameter(sParam) {
+    	var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    	for (i = 0; i < sURLVariables.length; i++) {
+        	sParameterName = sURLVariables[i].split('=');
+
+        	if (sParameterName[0] === sParam) {
+            	return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        	}
+	    }
+	}
 	</script>
 
 

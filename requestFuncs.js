@@ -93,7 +93,8 @@ function register(username, password, type, location){
 function addRequest(requester, description){
 	data[ID] = {"requester":requester, "description":description,
 				"lat":getJSONValue(requester, "lat"), 
-				"long":getJSONValue(requester, "long")};
+				"long":getJSONValue(requester, "long"),
+				"location":getJSONValue(requester, "location")};
 }
 
 

@@ -11,13 +11,10 @@
 	<script>
 		var socket = io();
 
-		function register() {
+		function login() {
 			var username = $("#username").val();
 			var password = $("#password").val();
-			socket.emit("login",username,password,function() {
-
-			});
-
+			window.location.replace('./redirect.html?username=' + username + '&password=' + password);
 		}
 	</script>
 	<div class= "container">
@@ -35,7 +32,7 @@
 					<div id="form2">
 						<input style="width:30%" type="text" id="username" class="email" placeholder="your username">
 						<input style="width:30%" type="password" id="password" placeholder="password">
-						<input style="width:10%" onclick="register();" class="button" type="submit" name="Login" value='Continue'>
+						<input style="width:10%" onclick="login();" class="button" type="submit" name="Login" value='Continue'>
 					</div>
 					<br>
 					<h2>

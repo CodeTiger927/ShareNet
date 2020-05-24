@@ -6,6 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../css/main.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     
   </head>
   <body>
@@ -30,19 +31,26 @@
         <div id="map"></div>
         <script>
 
+          var socket = io();
+
+
           var R = 6373;
-          var username = "Alex"; 
+          var currentView = -1;
+          var username = getUrlParameter("username"); 
           var userData;
+          var log;
+          var nearest20 = [];
           function postUserData(data){
             userData = data;
             $.get("../../data/log.json",function(data) {
-                  parseLog(data);
+                  log = data;
+                  parseLog();
                 });
 
           } 
-        $.get("../../data/UserData/"+username+".json",function(data) {
+          $.get("../../data/UserData/"+username+".json",function(data) {
               postUserData(data);
-            }); 
+            });
           
         function sortProperties(obj){
           // convert object into array
@@ -61,10 +69,11 @@
         return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
       }
 
-          function parseLog(log){
-            console.log(log);
+          function parseLog(){
+            console.log("start");
             var dist = {};
-            for (var ID in log){
+            for (var ID in log) {
+            if(ID == "counter") continue;
             var lat1 = Math.PI*userData["lat"] /180;
             var lat2 = Math.PI*log[ID]["lat"] /180;
             var dlon = Math.PI*(userData["long"]-log[ID]["long"])/180;
@@ -73,90 +82,98 @@
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             var d = R * c;
             dist[ID] = d;
-            console.log(dist[ID]);  }
+            }
 
               console.log(dist);
               var sortedDists = sortProperties(dist);
-              console.log(sortedDists);
+              for(var i = 0;i < sortedDists.length;i++) {
+                nearest20.push(sortedDists[i][0]);
+              }
+              initMap();
             }
+
 
             function initMap(){
               var options = {
-                zoom:8, 
-                center:{lat:42,lng:-71}
+                zoom:10, 
+                center:{lat:userData["lat"],lng:userData["long"]}
               }
 
               var map = new google.maps.Map(document.getElementById('map'), options);
-              var geocoder = new google.maps.Geocoder();
-
-            console.log(findCoords(geocoder, map, "123 Main St, Lexington, MA, 02421"))
              
-              
-      /*
-              var marker = new google.maps.Marker({
-                position:{lat:42,lng:-70},
-                map:map
-                });
-              var infoWindow=new google.maps.InfoWindow({content:'<h1> Cape Cod</h1>'});
-              marker.addListener('click', function(){infoWindow.open(map, marker);});
-      */    
-          function addMarker(coords, name){
+          function addMarker(coords,name,id){
             var marker = new google.maps.Marker({
                 position:coords,
                 map:map
                 });
             var infoWindow=new google.maps.InfoWindow({content:'<h1>'+ name +'</h1>'});
-                marker.addListener('click', function(){infoWindow.open(map, marker);});
+                marker.addListener('click', function(){
+                  infoWindow.open(map, marker);
+                  switchToID(id);
+                });
 
           }
-          
-          addMarker({lat:42, lng:-70},"Alex")
-          addMarker({lat:41, lng: -71},"Sarah")
-          
+          for(var i = 0;i < nearest20.length;i++) {
 
-          function findCoords(geocoder, resultsMap, address) {
-                geocoder.geocode({'address': address}, function(results, status) {
-                if (status === 'OK') { return(results[0].geometry.location.lat());
-
-                /*
-                  resultsMap.setCenter(results[0].geometry.location);
-                  var marker = new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location
-                  });*/
-                } else {
-                  alert('Geocode was not successful for the following reason: ' + status);
-                  return;
-                }
-                //return status;
-
-              });
-            }
+            var id = nearest20[i];
+            var coords = {"lat":log[id]["lat"],"lng":log[id]["long"]};
+            var name = log[id]["requester"];
+            addMarker(coords,name,nearest20[i]);
+          }
         }
 
+        function switchToID(id) {
+          currentView = id;
+          var outline = $("#outline");
+          outline.empty();
+          outline.append("<p>" + log[id]["requester"] + "</p>");
+          outline.append("<p>Contact: " + log[id]["contact"] + "</p>");
+          outline.append("<p>Location: " + log[id]["location"] + "</p>");
+          outline.append("<br>");
+          outline.append("Description:<br>");
+          outline.append("<p>" + log[id]["description"] + "</p>");
+          outline.append("<br>");
+        }
 
+        function acceptRequest() {
+          if(currentView == -1) return;
+          socket.emit("acceptRequest",username,currentView);
+          window.location.replace("./viewReqs?username=" + username);
+        }
+
+          function getUrlParameter(sParam) {
+      var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+          }
+      }
+  }
             
           </script>
 
 
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&callback=initMap"
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&"
           async defer></script>
       </div>
        <div id="currentlyViewingRequest" style="float:none; margin-left: 3em">
         <h2 style="text-align:center; color:#696969;margin-top: 2em">Currently Viewing</h2>
           <div id="outline">
             <!--style="color:#696969;outline:3px solid #696969; padding:1em; float:none;"-->
-            <p>Mary Jones</p>
-            <p>781-666-0114</p>
-            <p>10/5/2020</p>
-            <p>Ingredient List:<br>
-            - 3 green peppers <br>
-            - 4 lemons <br>
-            - 2 chicken breasts</p>
-            <p>Status: Requested</p>
+            <p>Not Viewing any profile right now</p>
             <br>
           </div>
+          <input onclick="acceptRequest()"type="button" class="button" value="Help!" style="font-size: 25px">
+          <br>
+          <br>
+          <br>
       </div>
     </div>
   </body>

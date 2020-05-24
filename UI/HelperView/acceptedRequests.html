@@ -15,7 +15,7 @@
 				<div id= 'header'>
 					<img src="../Photos/ShareNet.png" alt="Share Net Logo">
 				</div>
-				<h1>Your Requests:</h1>
+				<h1>Currently Helping:</h1>
 				<div id="listReq">
 
 				</div>
@@ -33,7 +33,7 @@
 					</div>
 					<br>
 					<h2>
-						<a href="./allReq">Back to Map</a>
+						<a href="javascript:backToMap();">Back to Map</a>
 					</h2>
 				</div>
 			</div>
@@ -43,12 +43,26 @@
 	<script>
 		var socket = io();
 
-		var username = "Alex";
+		var userData;
+
+		var username = getUrlParameter("username");
+
+		function backToMap() {
+			window.location.replace("./allReq?username=" + username);
+		}
+
+		function endRequest(id,requester) {
+			var requester = userData[id]["requester"];
+			socket.emit("endRequest",username,requester,id);
+			location.reload();
+		}
+
 		$.get("../../data/userData/"+username+".json",function(data){
+			userData = data['log'];
 			lookInLog(data['log']);
 		});
+
 		function lookInLog(log){
-			console.log(log);
 			var listReq = $("#listReq");
 			var counter = 0;
 			for(var ID in log){
@@ -56,12 +70,32 @@
 				listReq.append('<div class="request" id="request' + counter + '"> </div>');
 				var nextDiv = $("#request" + counter);
 
-				nextDiv.append("ID:" + ID + "<br>");
-				nextDiv.append("");
+				console.log(name);
+
+				nextDiv.append("ID: " + ID + "<br>");
+				nextDiv.append(log[ID]["requester"] + "<br>");
+				nextDiv.append("Contact: " + log[ID]["requester_contact"] + "<br>");
 				nextDiv.append(log[ID]["description"])
-				nextDiv.append('<input class="button2" type="submit" name="signup" value="End Request" style="margin-top: 10px;float:right;margin-right:20px">');
+				nextDiv.append('<input onclick="endRequest(' + ID + ')" class="button2" type="submit" name="signup" value="End Request" style="margin-top: 10px;float:right;margin-right:20px">');
 			}
 		}
+
+
+	function getUrlParameter(sParam) {
+    	var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    	for (i = 0; i < sURLVariables.length; i++) {
+        	sParameterName = sURLVariables[i].split('=');
+
+        	if (sParameterName[0] === sParam) {
+            	return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        	}
+	    }
+	}
+
 	</script>
 
 
