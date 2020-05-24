@@ -126,7 +126,7 @@ function register(username,password,type,location){
 					return;
 				}else{
 					var jsonObj = JSON.parse(body);
-					postGetLL(username,password,type,jsonObj.results[0].geometry.location.lat,type,jsonObj.results[0].geometry.location.lng);
+					postGetLL(username,password,type,jsonObj.results[0].geometry.location);
 				}
 			});
 		});
@@ -134,12 +134,12 @@ function register(username,password,type,location){
 	
 }
 
-function postGetLL(username,password,type,latitude,longtitude) {
+function postGetLL(username,password,type,location) {
 	var user = require("./data/userData/" + username + ".json");
 	user["password"] = md5(password);
 	user["type"] = type;
-	user["long"] = longtitude;
-	user["lat"] = latitude;
+	user["long"] = location.lng;
+	user["lat"] = location.lat;
 	user["log"] = {};
 	writeFile("./data/userData",username + ".json",JSON.stringify(user));
 }
