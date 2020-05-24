@@ -17,7 +17,7 @@
     </div>
     <div id=RequestFinder>
       <div class="requestTopBar">
-        <h2 style="text-align:center;">Requests Near Me</h2>
+        <h2 style="text-align:center; margin:2em;">Requests Near Me</h2>
       </div> 
       <div id=mapStuff>
         <style>
@@ -143,17 +143,20 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADkEWk0rw92U2RLe3_8z0ejK1MQ-mUs9w&callback=initMap"
           async defer></script>
       </div>
-      <div id="currentlyViewingRequest">
-        <h3 style="text-align:center; color:#696969">Currently Viewing</h3>
-        <p>Mary Jones</p> <br>
-        <p>781-666-0114</p><br>
-        <p>10/5/2020</p> <br>
-        <p>Ingredient List: <br>
-        - 3 green peppers <br>
-        - 4 lemons <br>
-        - 2 chicken breasts</p><br>
-        <p>Status</p>
-
+       <div id="currentlyViewingRequest" style="float:none; margin-left: 3em">
+        <h2 style="text-align:center; color:#696969;margin-top: 2em">Currently Viewing</h2>
+          <div id="outline">
+            <!--style="color:#696969;outline:3px solid #696969; padding:1em; float:none;"-->
+            <p>Mary Jones</p>
+            <p>781-666-0114</p>
+            <p>10/5/2020</p>
+            <p>Ingredient List:<br>
+            - 3 green peppers <br>
+            - 4 lemons <br>
+            - 2 chicken breasts</p>
+            <p>Status: Requested</p>
+            <br>
+          </div>
       </div>
     </div>
   </body>
