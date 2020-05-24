@@ -62,13 +62,14 @@
 
             function parseLog(log){
               console.log(log);
+              var dist = {};
               for (var ID in log){
-                var dist = {}
+                
                 var dlon = Math.PI*userData["long"]-log[ID]["long"]/180;
                 var dlat = Math.PI*userData["lat"]-log[ID]["lat"]/180;
-                var a = (Math.sin(dlat/2)*Math.sin(dlat/2)) + Math.cos(lat1) * Math.cos(lat2) * (Math.sin(dlon/2)*Math.sin(dlon/2))
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a) )
-                var d = R * c 
+                var a = (Math.sin(dlat/2)*Math.sin(dlat/2)) + Math.cos(lat1) * Math.cos(lat2) * (Math.sin(dlon/2)*Math.sin(dlon/2));
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                var d = R * c;
                 dist[ID] = d;
                 console.log(dist[ID]);
               }
