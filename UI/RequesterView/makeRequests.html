@@ -15,8 +15,7 @@
 				<div id= 'header'>
 					<img src="../Photos/ShareNet.png" alt="Share Net Logo">
 				</div>
-				<h1>Share Net</h1>
-				<h1>Pending requests:</h1>
+				<h1>Your Requests:</h1>
 				<div id="listReq">
 
 				</div>
@@ -61,12 +60,31 @@
 			for(var ID in log){
 				counter++;
 				if(log[ID]['requester'] == username){
+
+
+					if(log[ID]['accepted']){
+
+
 					listReq.append('<div class="request" id="request' + counter + '"></div>');
 					var nextDiv = $("#request" + counter);
 
-					nextDiv.append("ID:" + ID + "<br>");
+					nextDiv.append("ID:" + ID + " (Accepted)<br>");
 					nextDiv.append("");
 					nextDiv.append(log[ID]["description"]);
+
+					}
+
+					else{
+
+
+					listReq.append('<div class="request" id="request' + counter + '"></div>');
+					var nextDiv = $("#request" + counter);
+
+					nextDiv.append("ID:" + ID + " (Pending)<br>");
+					nextDiv.append("");
+					nextDiv.append(log[ID]["description"]);
+
+					}
 				}
 			}
 		}
