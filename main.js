@@ -38,6 +38,10 @@ app.get('/allReq',(req,res) => {
 	res.sendFile(__dirname + '/UI/HelperView/allRequestsAndMyRequests.html');
 });
 
+app.get('/makeReq',(req,res) => {
+	res.sendFile(__dirname + '/UI/RequesterView/makeRequests.html');
+});
+
 http.listen(3000,() => {
 	console.log('listening on *:3000');
 });
@@ -137,7 +141,6 @@ function postGetLL(username,password,type,latitude,longtitude) {
 	user["long"] = longtitude;
 	user["lat"] = latitude;
 	user["log"] = {};
-	user["accepted"] = {};
 	writeFile("./data/userData",username + ".json",JSON.stringify(user));
 }
 

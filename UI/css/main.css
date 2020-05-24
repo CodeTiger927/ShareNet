@@ -90,3 +90,11 @@ img{
 a{
 	color: rgba(41,165,170,1)
 }
+
+.request {
+	border: 1px solid black;
+	height: 130px;
+	padding-top: 10px;
+	padding-left: 10px;
+
+}

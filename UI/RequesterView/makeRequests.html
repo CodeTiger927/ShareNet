@@ -8,32 +8,6 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-	<script>
-		var socket = io();
-
-		function register() {
-			var reqList = $("#requestList").val();
-			var notes = $("#notes").val();
-			
-			socket.emit("register",requestList,notes);
-
-		}
-		var username = "Alex";
-		$.get("../../data/log.json",function(data){
-			lookInLog(data);
-		});
-		function lookInLog(log){
-			for(var ID in log){
-				if(log[ID]['username'] == username){
-					
-				}
-
-			}
-
-
-
-		}
-	</script>
 
 	<div class= "container">
 		<div id='columns'>
@@ -42,7 +16,13 @@
 					<img src="../Photos/ShareNet.png" alt="Share Net Logo">
 				</div>
 				<h1>Share Net</h1>
-				<p>Here are your uncompleted requests. </p>
+				<div id="listReq">
+					<div id="request1" class="request">
+						Description:<br>
+						I am happei
+					</div>
+				</div>
+				
 				
 
 			</div>
@@ -50,7 +30,8 @@
 				<div id='protocontainer'>
 					<h2> Make Request</h2>
 					
-					
+					<div id="">
+					</div>
 				
 					<div id="form1">
 						
@@ -70,5 +51,27 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		var socket = io();
+
+		var username = "Alex";
+		$.get("../../data/log.json",function(data){
+			lookInLog(data);
+		});
+		function lookInLog(log){
+			console.log(log);
+			var listReq = $("#listReq");
+
+			listReq.innerHTML
+			for(var ID in log){
+				if(log[ID]['requester'] == username){
+					
+				}
+			}
+		}
+	</script>
+
+
 </body>
 </html>
