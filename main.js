@@ -154,20 +154,26 @@ function acceptRequest(accepter,ID){
 	var request = data[ID];
 	var requester = request['requester'];
 
-	var logUpdate = getJSONValue(requester,'log');
-	logUpdate[ID] = request;
+	var logUpdateReq = getJSONValue(requester,'log');
+	logUpdateReq[ID] = request;
+
+	var logUpdateAcc = getJSONValue(accepter,'log');
+	logUpdateAcc[ID] = request;
 
 	//changeJSONValue(accepter,'log',logUpdate);
-	changeJSONValue(requester,'log',logUpdate);
+	changeJSONValue(requester,'log',logUpdateReq);
+	changeJSONValue(accepter,'log',logUpdateAcc);
+
 	delete data[ID];
 	writeFile("./data","log.json",JSON.stringify(data));
 
 }
 
 function endRequest(accepter, ID){
-	var currLog = getJSONValue(accepter, 'log')
-	currLog.delete(ID);
-	changeJSONValue(accepter, 'log', currLog);
+	var currLogAcc = getJSONValue(accepter,'log');
+	delete currLogAcc[ID];
+	var currLogReq = getJSONValue(requester,'log');
+	delete currLogReq[ID];
+	changeJSONValue(accepter,'log',currLogAcc);
+	changeJSONValue(requester,'log',currLogReq);
 }
-
-acceptRequest("codetiger927",2);
