@@ -60,7 +60,12 @@
 			for(var ID in log){
 				counter++;
 				if(log[ID]['requester'] == username){
-					listReq.append('<div class="request" id="request"' + counter + '>Request ID: ' + ID + '<br>Description:<br>' + log[ID]['description'] + '</div>');
+					listReq.append('<div class="request" id="request' + counter + '"></div>');
+					var nextDiv = $("#request" + counter);
+
+					nextDiv.append("ID:" + ID + "<br>");
+					nextDiv.append("Description:<br>");
+					nextDiv.append(log[ID]["description"]);
 				}
 			}
 		}
