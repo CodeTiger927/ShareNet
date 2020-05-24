@@ -36,7 +36,6 @@
           function postUserData(data){
             userData = data;
             $.get("../../data/log.json",function(data) {
-
                   parseLog(data);
                 });
 
@@ -48,9 +47,11 @@
         function sortProperties(obj){
           // convert object into array
         var sortable=[];
-        for(var key in obj)
-          if(obj.hasOwnProperty(key))
+        for(var key in obj){
+          if(obj.hasOwnProperty(key)){
             sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+          }
+        }
         
         // sort items by value
         sortable.sort(function(a, b)
@@ -60,24 +61,25 @@
         return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
       }
 
-            function parseLog(log){
-              console.log(log);
-              var dist = {};
-              for (var ID in log){
-                
-                var dlon = Math.PI*userData["long"]-log[ID]["long"]/180;
-                var dlat = Math.PI*userData["lat"]-log[ID]["lat"]/180;
-                var a = (Math.sin(dlat/2)*Math.sin(dlat/2)) + Math.cos(lat1) * Math.cos(lat2) * (Math.sin(dlon/2)*Math.sin(dlon/2));
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-                var d = R * c;
-                dist[ID] = d;
-                console.log(dist[ID]);
-              }
+          function parseLog(log){
+            console.log(log);
+            var dist = {};
+            for (var ID in log){
+            var lat1 = Math.PI*userData["lat"] /180;
+            var lat2 = Math.PI*log[ID]["lat"] /180;
+            var dlon = Math.PI*(userData["long"]-log[ID]["long"])/180;
+            var dlat = Math.PI*(userData["lat"]-log[ID]["lat"])/180;
+            var a = (Math.sin(dlat/2)*Math.sin(dlat/2)) + Math.cos(lat1) * Math.cos(lat2) * (Math.sin(dlon/2)*Math.sin(dlon/2));
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            var d = R * c;
+            dist[ID] = d;
+            console.log(dist[ID]);  }
+
               console.log(dist);
               var sortedDists = sortProperties(dist);
               console.log(sortedDists);
-              
             }
+
             function initMap(){
               var options = {
                 zoom:8, 
