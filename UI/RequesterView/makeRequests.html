@@ -17,10 +17,7 @@
 				</div>
 				<h1>Share Net</h1>
 				<div id="listReq">
-					<div id="request1" class="request">
-						Description:<br>
-						I am happei
-					</div>
+
 				</div>
 				
 				
@@ -29,9 +26,6 @@
 			<div id='right'>
 				<div id='protocontainer'>
 					<h2> Make Request</h2>
-					
-					<div id="">
-					</div>
 				
 					<div id="form1">
 						
@@ -62,11 +56,11 @@
 		function lookInLog(log){
 			console.log(log);
 			var listReq = $("#listReq");
-
-			listReq.innerHTML
+			var counter = 0;
 			for(var ID in log){
+				counter++;
 				if(log[ID]['requester'] == username){
-					
+					listReq.append('<div class="request" id="request"' + counter + '>Description:<br>' + log[ID]['description'] + '</div>');
 				}
 			}
 		}
