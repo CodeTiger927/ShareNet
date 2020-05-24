@@ -28,12 +28,12 @@
 					<h2> </h2>
 					
 					<div id="form1">
-						
+						<h2>Thank you for helping others during these difficult times. Your help is greatly appreciated. </h2>
 					
 					</div>
 					<br>
 					<h2>
-						<a href="./">Back to Map</a>
+						<a href="./allReq">Back to Map</a>
 					</h2>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 
 		var username = "Alex";
 		$.get("../../data/userData/"+username+".json",function(data){
-			lookInLog(data);
+			lookInLog(data['log']);
 		});
 		function lookInLog(log){
 			console.log(log);
@@ -53,18 +53,13 @@
 			var counter = 0;
 			for(var ID in log){
 				counter++;
-				if(log[ID]['requester'] == username){
+				listReq.append('<div class="request" id="request' + counter + '"> </div>');
+				var nextDiv = $("#request" + counter);
 
-
-					listReq.append('<div class="request" id="request' + counter + '"></div>');
-					var nextDiv = $("#request" + counter);
-
-					nextDiv.append("ID:" + ID + " (Accepted)<br>");
-					nextDiv.append("");
-					nextDiv.append(log[ID]["description"]);
-
-					
-				}
+				nextDiv.append("ID:" + ID + "<br>");
+				nextDiv.append("");
+				nextDiv.append(log[ID]["description"])
+				nextDiv.append('<input class="button2" type="submit" name="signup" value="End Request" style="margin-top: 10px;float:right;margin-right:20px">');
 			}
 		}
 	</script>
