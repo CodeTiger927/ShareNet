@@ -18,7 +18,23 @@
 			socket.emit("register",requestList,notes);
 
 		}
+		var username = "Alex";
+		$.get("../../data/log.json",function(data){
+			lookInLog(data);
+		});
+		function lookInLog(log){
+			for(var ID in log){
+				if(log[ID]['username'] == username){
+					
+				}
+
+			}
+
+
+
+		}
 	</script>
+
 	<div class= "container">
 		<div id='columns'>
 			<div id='left'>
@@ -27,11 +43,14 @@
 				</div>
 				<h1>Share Net</h1>
 				<p>Here are your uncompleted requests. </p>
+
+
 			</div>
 			<div id='right'>
 				<div id='protocontainer'>
+					<h2> Make Request</h2>
 					
-					<h2>Make Request</h2>
+					
 				
 					<div id="form1">
 						
