@@ -42,6 +42,10 @@ app.get('/makeReq',(req,res) => {
 	res.sendFile(__dirname + '/UI/RequesterView/makeRequests.html');
 });
 
+app.get('/viewReqs',(req,res) => {
+	res.sendFile(__dirname + '/UI/HelperView/acceptedRequests.html');
+});
+
 http.listen(3000,() => {
 	console.log('listening on *:3000');
 });

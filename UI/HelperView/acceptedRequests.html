@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../css/main.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+
+	<div class= "container">
+		<div id='columns'>
+			<div id='left'>
+				<div id= 'header'>
+					<img src="../Photos/ShareNet.png" alt="Share Net Logo">
+				</div>
+				<h1>Your Requests:</h1>
+				<div id="listReq">
+
+				</div>
+				
+				
+
+			</div>
+			<div id='right'>
+				<div id='protocontainer'>
+					<h2> </h2>
+					
+					<div id="form1">
+						
+					
+					</div>
+					<br>
+					<h2>
+						<a href="./">Back to Map</a>
+					</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var socket = io();
+
+		var username = "Alex";
+		$.get("../../data/userData/"+username+".json",function(data){
+			lookInLog(data);
+		});
+		function lookInLog(log){
+			console.log(log);
+			var listReq = $("#listReq");
+			var counter = 0;
+			for(var ID in log){
+				counter++;
+				if(log[ID]['requester'] == username){
+
+
+					listReq.append('<div class="request" id="request' + counter + '"></div>');
+					var nextDiv = $("#request" + counter);
+
+					nextDiv.append("ID:" + ID + " (Accepted)<br>");
+					nextDiv.append("");
+					nextDiv.append(log[ID]["description"]);
+
+					
+				}
+			}
+		}
+	</script>
+
+
+</body>
+</html>
