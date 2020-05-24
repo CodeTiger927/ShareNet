@@ -16,6 +16,7 @@
 					<img src="../Photos/ShareNet.png" alt="Share Net Logo">
 				</div>
 				<h1>Share Net</h1>
+				<h1>Pending requests:</h1>
 				<div id="listReq">
 
 				</div>
@@ -26,7 +27,7 @@
 			<div id='right'>
 				<div id='protocontainer'>
 					<h2> Make Request</h2>
-				
+					
 					<div id="form1">
 						
 						<textarea placeholder="Request List" name="reqList" id="reqList" cols = "30" resize = "none" rows="6"></textarea>
@@ -64,7 +65,7 @@
 					var nextDiv = $("#request" + counter);
 
 					nextDiv.append("ID:" + ID + "<br>");
-					nextDiv.append("Description:<br>");
+					nextDiv.append("");
 					nextDiv.append(log[ID]["description"]);
 				}
 			}
