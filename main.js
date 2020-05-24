@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
-var md5 = require("blueimp-md5")
+var md5 = require("blueimp-md5");
 
 const data = require("./data/log.json");
 var fs = require('fs');
@@ -137,6 +137,7 @@ function postGetLL(username,password,type,latitude,longtitude) {
 	user["long"] = longtitude;
 	user["lat"] = latitude;
 	user["log"] = {};
+	user["accepted"] = {};
 	writeFile("./data/userData",username + ".json",JSON.stringify(user));
 }
 
