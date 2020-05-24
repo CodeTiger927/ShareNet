@@ -76,9 +76,10 @@ img{
 	width:35%;
 	margin:0;
 }
-#topbarimage{
-	width:17.5%;
-	margin:0;
+.navBar{	
+	color: white;
+	background: rgb(41,165,170);
+    background: linear-gradient(25deg, rgba(41,165,170,1) 0%, rgba(69,226,232,1) 100%);
 }
 #protocontainer{
 	display:inline;
