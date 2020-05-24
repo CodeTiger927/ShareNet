@@ -98,20 +98,15 @@ function writeJSON(location,name,jsonOBJ) {
 
 
 
-function getJSONValue(user){
-	var userData = require('./data/userData/' + user + '.json');
-	return userData;
-}
-
 function getJSONValue(user, key){
 	var userData = require('./data/userData/' + user + '.json');
 	return userData[key];
 }
 
 function changeJSONValue(user, key, value){
-	var user = getJSONValue(user);
-	user[key] = value;
-	writeJSON("./data/userData",username + ".json",user);
+	var userData = require('./data/userData/' + user + '.json');
+	userData[key] = value;
+	writeJSON("./data/userData",user + ".json",userData);
 }
 
 // 0 - Requester
@@ -145,21 +140,28 @@ function postGetLL(username,password,type,location) {
 }
 
 //description, sender, accepter
-function addRequest(requester, description){
-	data[ID] = {"requester":requester, "description":description,
-				"lat":getJSONValue(requester, "lat"), 
-				"long":getJSONValue(requester, "long")};
+function addRequest(requester,description){
+	data["counter"]++;
+	data[data["counter"]] = {"requester":requester, "description":description,
+				"lat":getJSONValue(requester,"lat"), 
+				"long":getJSONValue(requester,"long"),
+				"contact":getJSONValue(requester,"contact")};
+	writeFile("./data","log.json",JSON.stringify(data));
 }
 
 
-function acceptRequest(accepter, ID){
-	var request = requestLogData[ID];
-	requester = request['requester'];
-	requestLogData.delete(ID);
-	var logUpdate = getJSONValue(accepter, 'log');
-	logUpdate.push(request);
-	changeJSONValue(accepter, 'log', logUpdate);
-	changeJSONValue(requester, 'log', logUpdate);
+function acceptRequest(accepter,ID){
+	var request = data[ID];
+	var requester = request['requester'];
+
+	var logUpdate = getJSONValue(requester,'log');
+	logUpdate[ID] = request;
+
+	//changeJSONValue(accepter,'log',logUpdate);
+	changeJSONValue(requester,'log',logUpdate);
+	delete data[ID];
+	writeFile("./data","log.json",JSON.stringify(data));
+
 }
 
 function endRequest(accepter, ID){
@@ -167,3 +169,5 @@ function endRequest(accepter, ID){
 	currLog.delete(ID);
 	changeJSONValue(accepter, 'log', currLog);
 }
+
+acceptRequest("codetiger927",2);

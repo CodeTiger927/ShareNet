@@ -1,20 +1,3 @@
 {
-	"2": {
-		"requester": "Alex",
-		"description": "I need help",
-		"lat": 42.1,
-		"long": -71.1
-	},
-	"1":{
-		"requester": "Sarah",
-		"description": "AlexSucks",
-		"lat": 42.2,
-		"long": -71.1
-	},
-	"5": {
-		"requester": "Alex",
-		"description": "Vegetables and Cheese",
-		"lat": 42.1,
-		"long": -71.1
-	}
+	"counter": 0
 }
