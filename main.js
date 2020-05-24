@@ -20,6 +20,10 @@ io.on('connection',(socket) => {
 	socket.on('register',(usr,pwd,addr,type) => {
 		register(usr,pwd,type,addr);
 	});
+
+	socket.on('addRequest',(requester,description) => {
+		addRequest(requester,description);
+	});
 });
 
 app.use("/data", express.static(__dirname + '/data'));
@@ -149,7 +153,8 @@ function addRequest(requester,description){
 	data[data["counter"]] = {"requester":requester, "description":description,
 				"lat":getJSONValue(requester,"lat"), 
 				"long":getJSONValue(requester,"long"),
-				"contact":getJSONValue(requester,"contact")};
+				"contact":getJSONValue(requester,"contact"),
+				"accepted":false};
 	writeFile("./data","log.json",JSON.stringify(data));
 }
 

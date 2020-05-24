@@ -19,9 +19,6 @@
 				<div id="listReq">
 
 				</div>
-				
-				
-
 			</div>
 			<div id='right'>
 				<div id='protocontainer' style="top:200px;">
@@ -29,12 +26,10 @@
 					
 					<div id="form1">
 						
-						<textarea  style="width:80%;"placeholder="Request List" name="reqList" id="reqList" cols = "30" resize = "none" rows="6"></textarea>
-
-						<textarea style="width:80%;" placeholder="Extra Notes" name="notes" id="notes" cols = "10" resize = "none" rows="3"></textarea>
+						<textarea  style="width:80%;"placeholder="Description" name="reqList" id="reqList" cols = "30" resize = "none" rows="9"></textarea>
 						<br>
 
-						<input class="button" type="submit" name="signup" 
+						<input onclick="makeRequest();" class="button" type="submit" name="signup" 
 						value='Submit Request' style="margin-top: 20px">
 					</div>
 					<br>
@@ -53,8 +48,14 @@
 		$.get("../../data/log.json",function(data){
 			lookInLog(data);
 		});
+
+		function makeRequest() {
+			var description = $("#reqList").val();
+			socket.emit("addRequest",username,description);
+			location.reload();
+		}
+
 		function lookInLog(log){
-			console.log(log);
 			var listReq = $("#listReq");
 			var counter = 0;
 			for(var ID in log){
