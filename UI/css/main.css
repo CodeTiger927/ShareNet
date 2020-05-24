@@ -61,7 +61,7 @@ textarea{
 	position: relative;
 	top:12px;
 }
-.email{
+.email,.contact{
 	padding: .35em;
 	width:70%;
 }
@@ -97,7 +97,11 @@ input{
 	padding:1em;
 	margin:.5em;
 }
-
+#form1{
+	float:none;
+	padding:1em;
+	margin:.5em;
+}
 
 .request {
 	border: 1px solid black;
